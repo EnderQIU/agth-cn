@@ -46,11 +46,9 @@
 
 - `/S[IP_address]` - send text to custom computer (default parameter: local computer)
 
-
 - `/V` - process text threads from system contexts
 
 - `/X[sets_mask]` - extended sets of hooked functions (default parameter: 1; number of available sets: 2)
-
 
 > All numbers in `/L`, `/R`, `/F`, `/W`, `/X`, `/H` (except ordinal) are hexadecimal without any prefixes
 
@@ -58,7 +56,7 @@
 
 `/H[X]{A|B|W|S|Q}[N][data_offset[*drdo]][:sub_offset[*drso]]@addr[:[module[:{name|#ordinal}]]]`
 
-### Hook types:
+### Hook types
 
 - `A` - DBCS char
 
@@ -70,7 +68,7 @@
 
 - `Q` - UTF-16 string
 
-### Parameters:
+### Parameters
 
 - `X` - use hardware breakpoints
 
@@ -92,7 +90,7 @@
 
 - `ordinal` - number of the 'module' export ordinal to use as base for 'addr'
 
-### Negative values of 'data_offset' and 'sub_offset' refer to registers:
+> Negative values of 'data_offset' and 'sub_offset' refer to registers
 
 - `-4` for EAX
 
@@ -110,9 +108,7 @@
 
 - `-20` for EDI
 
-
 > "Add a level of indirection" means in C/C++ style: (*(ESP+data_offset)+drdo) insted of (ESP+data_offset)
-
 > All numbers except ordinal are hexadecimal without any prefixes
 
 ## Set additional hook with user supplied handler
@@ -121,7 +117,7 @@
 
 - `<code>` - raw x86 position-independent code, last byte is checksum, encoded in BASE64
 
-### Start of code is called as hook handler function with following environment:
+> Start of code is called as hook handler function with following environment
 
 - `eax`, `ecx`, `edx`, `ebp` - original values
 
@@ -139,14 +135,11 @@
 
 - `[esp+10h]` - original edi
 
-
 > User function shall return with ret and not change global memory, including stack above its return address.
-
 > Preserving general purpose registers besides esp is not required.
-
 > Note: all handler memory is RWE, so can be used to store global variables, but be aware of threading issues.
 
-## AGTH service functions pointers, stdcall calling convention:
+## AGTH service functions pointers, stdcall calling convention
 
 - `[edi+00h]` - `void SendText(char *Name, DWORD Context, DWORD SubContext, char/wchar_t *Text, DWORD TextLenLimit, DWORD UnicodeFlag)` - sends text; Name is in UTF-8 and can be NULL; Text is in MBCS when UnicodeFlag is 0, and in UTF-16 when 1
 
